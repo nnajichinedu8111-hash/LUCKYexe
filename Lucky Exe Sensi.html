@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lucky Exe Sensi</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0b;--card:#131315;--line:#3a1218;--red:#ee3340;--ink:#e8e8ea;--mute:#8a8a90;--inp:#000;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% 100%,#1c0508,var(--bg) 70%) fixed;color:var(--ink);font:14px/1.5 'JetBrains Mono',ui-monospace,monospace;min-height:100vh}
+h1,h2,.logo,.big{font-family:Orbitron,Impact,sans-serif;letter-spacing:.06em}
+.wrap{max-width:560px;margin:0 auto;padding:18px}
+.logo{color:var(--red);font-size:26px;font-weight:800;text-shadow:0 0 14px #ee334066;margin:6px 0 14px}
+nav{display:flex;gap:18px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px}
+nav a{color:var(--ink);cursor:pointer;padding-bottom:6px;border-bottom:2px solid transparent}
+nav a.on{color:var(--red);border-color:var(--red)}
+.who{display:flex;gap:12px;align-items:center;margin-bottom:18px;color:var(--mute)}
+.badge{background:var(--red);color:#000;font-weight:600;border-radius:6px;padding:1px 10px;font-size:12px}
+.who a{color:var(--ink);cursor:pointer}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+h2{color:var(--red);font-size:18px;margin:0 0 12px}
+label{display:block;color:var(--mute);font-size:12px;margin:10px 0 4px}
+input,select{width:100%;background:var(--inp);color:var(--ink);border:1px solid #2c2c30;border-radius:8px;padding:12px;font:inherit}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--red);outline-offset:1px}
+button{background:var(--red);color:#000;border:0;border-radius:8px;padding:12px 16px;font:600 14px 'JetBrains Mono',monospace;cursor:pointer;margin-top:14px;width:100%}
+button.ghost{background:none;color:var(--red);border:1px solid var(--red);width:auto;padding:8px 12px;margin:0}
+.tabs{display:flex;border:1px solid #2c2c30;border-radius:8px;overflow:hidden}
+.tabs button{margin:0;border-radius:0;background:#000;color:var(--mute)}
+.tabs button.on{background:var(--red);color:#000}
+.err{background:#3a0608;border:1px solid #7a1a22;color:#ff9aa2;padding:12px;border-radius:8px;margin:12px 0}
+.ok{background:#04264a;border:1px solid #0a5a9a;color:#7cc4ff;padding:12px;border-radius:8px;margin-bottom:16px}
+.center{text-align:center}
+.big{font-size:44px;color:var(--red);text-shadow:0 0 18px #ee334055;font-weight:800}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.pills{display:flex;gap:8px;overflow-x:auto;padding:8px 0}
+.pills span{white-space:nowrap;border:1px solid #2c2c30;padding:8px 12px;cursor:pointer;color:var(--mute)}
+.pills.wrap2{flex-wrap:wrap;max-height:200px;overflow-y:auto}.pills span.on{border-color:var(--red);color:var(--ink);background:#1c0508}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:430px}
+th{color:var(--red);text-align:left;font-size:11px;padding:6px}td{padding:8px 6px;border-top:1px solid #222;font-size:12px;word-break:break-all}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat div{border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center}
+.stat b{display:block;font:800 26px Orbitron,sans-serif;color:var(--red)}
+.sens{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.sens div{background:#000;border:1px solid var(--line);padding:10px;border-radius:8px;display:flex;justify-content:space-between}
+.sens b{color:var(--red)}
+.hidden{display:none}
+</style></head><body>
+<div class="wrap" id="app"></div>
+<script>
+const $=s=>document.querySelector(s);
+const ADMIN={u:'lucky',p:'lucky87'};
+let S={user:null,tab:'sensi',err:'',mode:'admin',kUnit:'hours',dev:'TECNO CAMON 30',sens:null};
+function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let keys=load('lp_keys',[]),resellers=load('lp_res',[]);
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const code=n=>Array.from({length:n},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[rnd(0,31)]).join('');
+const fmt=h=>h%24===0?h/24+'d':h+'h';
+
+function genSens(){S.sens=[['General',rnd(88,100)],['Red Dot',rnd(85,100)],['2x Scope',rnd(82,98)],['4x Scope',rnd(78,95)],['AWM Scope',rnd(70,90)],['Free Look',rnd(60,85)],['DPI',rnd(420,800)],['Fire Button',rnd(45,70)]]}
+
+function render(){
+ const a=$('#app');
+ if(!S.user){a.innerHTML=`<div class="card" style="margin-top:12vh"><div class="logo center">☠️ LUCKY EXE SENSI ☠️</div>
+ <div class="tabs"><button class="${S.mode=='admin'?'on':''}" onclick="S.mode='admin';S.err='';render()">ADMIN</button><button class="${S.mode=='reseller'?'on':''}" onclick="S.mode='reseller';S.err='';render()">RESELLER</button></div>
+ ${S.err?`<div class="err">${S.err}</div>`:''}
+ <label>${S.mode} username</label><input id="u" autocomplete="username" autocapitalize="none">
+ <label>${S.mode} password</label><input id="p" type="password" autocomplete="current-password">
+ <button onclick="login()">${S.mode.toUpperCase()} LOGIN</button></div>`;return}
+ const adm=S.user.role=='admin';
+ const tabs=(adm?[['sensi','VIP Sensi'],['dash','Dashboard'],['keys','Keys'],['res','Resellers']]:[['dash','Dashboard'],['keys','Keys']]);
+ let body='';
+ if(S.tab=='sensi')body=sensi();else if(S.tab=='dash')body=dash();else if(S.tab=='keys')body=keysView();else body=resView();
+ a.innerHTML=`<div class="logo">☠️ LUCKY</div><nav>${tabs.map(t=>`<a class="${S.tab==t[0]?'on':''}" onclick="S.tab='${t[0]}';render()">${t[1]}</a>`).join('')}</nav>
+ <div class="who"><span>${S.user.name} (${S.user.role})</span><span class="badge">${S.user.role.toUpperCase()}</span><a onclick="S.user=null;render()">Logout</a></div>${body}`;
+}
+async function login(){
+ const u=$('#u').value.trim().toLowerCase(),p=$('#p').value;
+ if(S.mode=='admin'&&u==ADMIN.u&&p==ADMIN.p){S.user={name:u,role:'admin'};S.tab='sensi';S.err='';S.key='LUCKY-'+code(8);S.exp=Date.now()+4*3600e3;genSens()}
+ else if(S.mode=='reseller'){const r=resellers.find(x=>x.name.toLowerCase()==u&&x.pass==p);if(r){S.user={name:r.name,role:'reseller'};S.tab='dash';S.err=''}else S.err='Invalid credentials.'}
+ else S.err='Invalid credentials.';
+ render()}
+const DEVS='TECNO CAMON 30|TECNO CAMON 20|TECNO SPARK 10|TECNO POVA 5|INFINIX NOTE 30|INFINIX HOT 30|INFINIX ZERO 30|ITEL S23|IPHONE 15 PRO MAX|IPHONE 15 PRO|IPHONE 15|IPHONE 14 PRO MAX|IPHONE 14|IPHONE 13 PRO MAX|IPHONE 13 PRO|IPHONE 13|IPHONE 12|IPHONE 11|IPHONE XR|IPHONE X|IPHONE 8 PLUS|IPAD AIR|IPAD PRO|SAMSUNG S24 ULTRA|SAMSUNG S23 ULTRA|SAMSUNG S23|SAMSUNG S22|SAMSUNG S21|SAMSUNG A54|SAMSUNG A34|SAMSUNG A14|SAMSUNG A10S|SAMSUNG M33|SAMSUNG NOTE 20|XIAOMI 13T|XIAOMI 12|REDMI NOTE 13|REDMI NOTE 12|REDMI NOTE 11|REDMI 12C|REDMI 10|POCO F5|POCO X5 PRO|POCO M5|POCO C55|REALME 11 PRO|REALME GT 3|REALME C55|REALME 9|REALME NARZO 60|OPPO RENO 10|OPPO A78|OPPO A57|OPPO F21|VIVO V29|VIVO Y36|VIVO Y21|VIVO X90|ONEPLUS 11|ONEPLUS NORD 3|ONEPLUS 9|HONOR 90|HONOR X9|HUAWEI P50|GOOGLE PIXEL 8|GOOGLE PIXEL 7|MOTOROLA G84|MOTOROLA EDGE 40|NOKIA G42|ASUS ROG PHONE 7|ASUS ZENFONE 10|REDMAGIC 8 PRO|LAVA AGNI 2'.split('|').concat('IPHONE SE|IPHONE 7|IPHONE 7 PLUS|IPHONE 8|IPHONE XS|IPHONE XS MAX|IPHONE 11 PRO|IPHONE 11 PRO MAX|IPHONE 12 PRO|IPHONE 12 PRO MAX|IPHONE 12 MINI|IPHONE 13 MINI|IPHONE 14 PLUS|IPHONE 14 PRO|IPHONE 15 PLUS|IPHONE 16|IPHONE 16 PRO|IPHONE 16 PRO MAX|SAMSUNG S24|SAMSUNG S24 PLUS|SAMSUNG S23 PLUS|SAMSUNG S22 ULTRA|SAMSUNG S21 ULTRA|SAMSUNG S20|SAMSUNG S10|SAMSUNG S9|SAMSUNG A73|SAMSUNG A53|SAMSUNG A33|SAMSUNG A24|SAMSUNG A23|SAMSUNG A13|SAMSUNG A12|SAMSUNG A11|SAMSUNG A32|SAMSUNG A52|SAMSUNG A72|SAMSUNG A51|SAMSUNG A71|SAMSUNG A50|SAMSUNG A30|SAMSUNG A20|SAMSUNG A04|SAMSUNG M13|SAMSUNG M53|SAMSUNG J7|SAMSUNG Z FOLD 5|SAMSUNG Z FLIP 5|XIAOMI 14|XIAOMI 13|XIAOMI 11T|XIAOMI MI 11|XIAOMI MI 10|XIAOMI MI 9|XIAOMI MI 8|REDMI NOTE 13 PRO|REDMI NOTE 12 PRO|REDMI NOTE 11 PRO|REDMI NOTE 10|REDMI NOTE 9|REDMI NOTE 8|REDMI 13C|REDMI 12|REDMI 9|REDMI 9A|REDMI 8|REDMI A2|POCO F6|POCO F4|POCO F3|POCO X6|POCO X4|POCO X3|POCO M4|POCO M3|POCO C65|REALME 12 PRO|REALME 11|REALME 10|REALME 8|REALME 7|REALME 6|REALME 5|REALME C53|REALME C35|REALME C25|REALME C15|REALME GT NEO 5|REALME NARZO 50|OPPO RENO 11|OPPO RENO 8|OPPO RENO 6|OPPO A98|OPPO A77|OPPO A17|OPPO A15|OPPO F19|OPPO FIND X5|VIVO V30|VIVO V27|VIVO V25|VIVO V23|VIVO V21|VIVO Y27|VIVO Y22|VIVO Y20|VIVO Y12|VIVO X100|VIVO IQOO 11|ONEPLUS 12|ONEPLUS 10 PRO|ONEPLUS 8|ONEPLUS 7|ONEPLUS NORD CE 3|HONOR 70|HONOR X8|HONOR MAGIC 5|HUAWEI P40|HUAWEI MATE 50|HUAWEI NOVA 11|GOOGLE PIXEL 8 PRO|GOOGLE PIXEL 6|GOOGLE PIXEL 5|MOTOROLA G54|MOTOROLA G73|MOTOROLA G23|MOTOROLA EDGE 30|NOKIA G21|NOKIA X30|SONY XPERIA 1 V|SONY XPERIA 5|ASUS ROG PHONE 8|ASUS ROG PHONE 6|BLACK SHARK 5|NUBIA Z60|ZTE BLADE V50|TECNO CAMON 19|TECNO CAMON 18|TECNO SPARK 20|TECNO SPARK 8|TECNO POVA 4|TECNO PHANTOM X2|INFINIX HOT 40|INFINIX HOT 20|INFINIX HOT 10|INFINIX NOTE 12|INFINIX ZERO 20|INFINIX SMART 7|ITEL P40|ITEL A60'.split('|'));
+function pickC(){const n=($('#sq').value||'').toUpperCase().replace(/[^A-Z0-9 +.-]/g,'').trim().slice(0,40);if(!n)return;S.dev=n;genSens();render()}
+function pills(q){q=(q||'').toLowerCase().trim();const l=DEVS.filter(d=>d.toLowerCase().includes(q));return (l.length?l.slice(0,60).map(d=>`<span class="${S.dev==d?'on':''}" onclick="S.dev='${d}';genSens();render()">${d}</span>`).join(''):'')+(q?`<span onclick="pickC()">+ Use "${q.toUpperCase().replace(/[^A-Z0-9 +.-]/gi,'')}" as my phone</span>`:'')}
+function sensi(){
+ if(!S.sens)genSens();
+ return `<div class="card center"><div class="row"><div><label>Session key</label><b style="color:var(--red)">${S.key}</b></div><div><label>Device ID</label><b style="color:var(--red)">${S.key.slice(-6)}</b></div></div><label>Expires</label><b style="color:var(--red)">${new Date(S.exp).toLocaleString()}</b><label>Time remaining</label><div class="big" id="cd">--:--:--</div></div><div class="card center"><h2>Sensitivity engine</h2><div class="big" style="font-size:30px">VIP HEADSHOT SENSI</div><p style="color:var(--mute)">Sensitivity settings for Free Fire</p>
+ <p style="color:var(--mute);margin:0 0 8px">Selected: <b style="color:var(--red)">${S.dev}</b></p><input id="sq" placeholder="🔍 Search phone (samsung, iphone 14, redmi...)" oninput="$('#pl').innerHTML=pills(this.value)"><div class="pills wrap2" id="pl">${pills('')}</div>
+ <select id="ram"><option>4 GB RAM</option><option>6 GB RAM</option><option selected>8 GB RAM</option><option>12 GB RAM</option></select>
+ <button onclick="genSens();render()">⚡ RE-GENERATE</button>
+ <div class="sens">${S.sens.map(s=>`<div><span>${s[0]}</span><b>${s[1]}</b></div>`).join('')}</div></div>`}
+function dash(){
+ const mine=S.user.role=='admin'?keys:keys.filter(k=>k.by==S.user.name);
+ const used=mine.filter(k=>k.used).length;
+ return `<div class="card"><h2>Dashboard</h2><div class="stat"><div><b>${mine.length}</b>Keys</div><div><b>${used}</b>Used</div><div><b>${mine.length-used}</b>Unused</div><div><b>${S.user.role=='admin'?resellers.length:'—'}</b>Resellers</div></div></div>`}
+function keysView(){
+ const adm=S.user.role=='admin',me=resellers.find(r=>r.name==S.user.name);
+ const left=adm?'unlimited':(me?me.limit-keys.filter(k=>k.by==me.name).length:0);
+ const mine=adm?keys:keys.filter(k=>k.by==S.user.name);
+ return `<div class="ok">Your limits: ${left} keys remaining</div>${S.err?`<div class="err">${S.err}</div>`:''}
+ <div class="card"><h2>Generate keys</h2><div class="row"><div><label>Amount (1-100)</label><input id="amt" type="number" value="1" min="1" max="100"></div>
+ <div><label>Duration unit</label><div class="tabs"><button class="${S.kUnit=='hours'?'on':''}" onclick="S.kUnit='hours';render()">HOURS</button><button class="${S.kUnit=='days'?'on':''}" onclick="S.kUnit='days';render()">DAYS</button></div></div></div>
+ <div class="row"><div><label>Duration (${S.kUnit})</label><input id="dur" type="number" value="24" min="1"></div>
+ <div><label>Device limit</label><select id="dev"><option value="1">Single device</option><option value="2">2 devices</option><option value="5">5 devices</option></select></div></div>
+ <button onclick="genKeys()">⚡ GENERATE</button></div>
+ <div class="card"><h2>Generated keys</h2><input id="q" placeholder="Search key..." oninput="filt()"><button class="ghost" style="margin-top:10px" onclick="csv()">EXPORT CSV</button>
+ <div class="tbl"><table><thead><tr><th>KEY</th><th>DURATION</th><th>DEVICES</th><th>STATUS</th><th></th></tr></thead><tbody id="kb">${rows(mine)}</tbody></table></div></div>`}
+function rows(l){return l.length?l.slice().reverse().map(k=>`<tr><td>${k.key}</td><td>${fmt(k.hours)}</td><td>${k.dev}</td><td>${k.used?'USED':'ACTIVE'}</td><td><a style="color:var(--red);cursor:pointer" onclick="delKey('${k.key}')">delete</a></td></tr>`).join(''):'<tr><td colspan=5 style="color:var(--mute)">No keys yet. Generate your first key above.</td></tr>'}
+function filt(){const q=$('#q').value.toLowerCase();const adm=S.user.role=='admin';$('#kb').innerHTML=rows((adm?keys:keys.filter(k=>k.by==S.user.name)).filter(k=>k.key.toLowerCase().includes(q)))}
+function genKeys(){
+ const n=Math.min(100,Math.max(1,+$('#amt').value||1));let d=Math.max(1,+$('#dur').value||1);if(S.kUnit=='days')d*=24;
+ if(S.user.role!='admin'){const me=resellers.find(r=>r.name==S.user.name);const used=keys.filter(k=>k.by==S.user.name).length;if(!me||used+n>me.limit){S.err='Not enough keys remaining.';render();return}}
+ S.err='';for(let i=0;i<n;i++)keys.push({key:'LUCKY-'+code(8),hours:d,dev:+$('#dev').value,used:false,by:S.user.name});
+ save('lp_keys',keys);render()}
+function delKey(k){keys=keys.filter(x=>x.key!=k);save('lp_keys',keys);render()}
+function csv(){const t='key,hours,devices,status,by\n'+keys.map(k=>[k.key,k.hours,k.dev,k.used?'used':'active',k.by].join(',')).join('\n');
+ navigator.clipboard&&navigator.clipboard.writeText(t).then(()=>alert('CSV copied to clipboard'),()=>prompt('Copy CSV',t))}
+function resView(){
+ return `<div class="card"><h2>Add reseller</h2>${S.err?`<div class="err">${S.err}</div>`:''}<label>Username</label><input id="rn"><label>Password</label><input id="rp"><label>Key limit</label><input id="rl" type="number" value="100">
+ <button onclick="addRes()">ADD RESELLER</button></div>
+ <div class="card"><h2>Resellers</h2><div class="tbl"><table><thead><tr><th>NAME</th><th>LIMIT</th><th>USED</th><th></th></tr></thead><tbody>${resellers.length?resellers.map(r=>`<tr><td>${r.name}</td><td>${r.limit}</td><td>${keys.filter(k=>k.by==r.name).length}</td><td><a style="color:var(--red);cursor:pointer" onclick="delRes('${r.name}')">remove</a></td></tr>`).join(''):'<tr><td colspan=4 style="color:var(--mute)">No resellers yet.</td></tr>'}</tbody></table></div></div>`}
+function addRes(){const n=$('#rn').value.trim(),p=$('#rp').value,l=+$('#rl').value||0;
+ if(!n||!p){S.err='Enter a username and password.'}else if(resellers.some(r=>r.name.toLowerCase()==n.toLowerCase())){S.err='That username is taken.'}else{resellers.push({name:n,pass:p,limit:l});save('lp_res',resellers);S.err=''}
+ render()}
+function delRes(n){resellers=resellers.filter(r=>r.name!=n);save('lp_res',resellers);render()}
+render();
+setInterval(()=>{const e=$('#cd');if(!e||!S.exp)return;let s=Math.max(0,Math.floor((S.exp-Date.now())/1000));e.textContent=[s/3600,s%3600/60,s%60].map(x=>String(Math.floor(x)).padStart(2,'0')).join(':')},1000);
+</script></body></html>
